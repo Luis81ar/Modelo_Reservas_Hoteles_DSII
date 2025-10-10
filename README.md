@@ -16,7 +16,7 @@ Contar con un modelo que **prediga la probabilidad de cancelación** permite imp
 - Políticas de pago más seguras.  
 - Descuentos por reserva anticipada.  
 - Reasignación dinámica de habitaciones.  
-- Fidelización de clientes con alta probabilidad de asistir.
+- Fidelización de clientes con alta probabilidad de asistencia.
 
 Este análisis busca **complementar las herramientas tradicionales del sector**, aportando inteligencia predictiva a la gestión hotelera.
 
@@ -25,6 +25,14 @@ Este análisis busca **complementar las herramientas tradicionales del sector**,
 ## 🎯 Objetivo General
 
 Desarrollar un **modelo de machine learning** que identifique **reservas con alta probabilidad de cancelación**, para que el hotel pueda tomar **decisiones preventivas** y **mejorar su eficiencia operativa**.
+
+---
+
+## 🎯 Objetivos Específicos
+
+📊 **Comprender la forma y comportamiento de los datos**, identificando si siguen distribuciones normales, sesgadas o uniformes.  
+🧠 **Detectar patrones y tendencias** que puedan influir en la variable `booking_status` (cancelación o no cancelación).  
+🔍 **Evaluar la idoneidad del dataset** para la construcción de futuros modelos predictivos, especialmente de clasificación supervisada.
 
 ---
 
@@ -87,18 +95,63 @@ El dataset contiene información sobre reservas hoteleras, incluyendo:
 
 ---
 
-## 🔍 Análisis General
+## 📊 Análisis Variable por Variable
 
-- El dataset **no presenta valores nulos**, lo que facilita el procesamiento.  
-- Incluye **variables temporales, económicas y de comportamiento del cliente**.  
-- La variable objetivo (**target**) es `booking_status`.  
+A continuación se resume lo que normalmente se observa al comparar histogramas con distribuciones normal y uniforme en datasets de reservas (basado en comportamientos típicos y el contexto de las variables):
 
-### 🧠 Variables con mayor potencial predictivo:
-- `lead_time` (tiempo de antelación de reserva)  
-- `avg_price_per_room` (precio promedio)  
-- `no_of_special_requests` (solicitudes especiales)  
-- `market_segment_type` (segmento de mercado)  
-- `repeated_guest` (reincidencia del huésped)
+| Variable | Tipo | Comportamiento observado | Interpretación |
+|-----------|------|---------------------------|----------------|
+| **no_of_adults** | Numérica discreta | Distribución sesgada hacia 2 adultos | La mayoría de reservas son para 2 personas. No se aproxima a una normal. |
+| **no_of_children** | Numérica discreta | Concentrada en 0 | Muy pocos casos con niños; el hotel recibe principalmente adultos. |
+| **no_of_weekend_nights** | Numérica discreta | Ligeramente sesgada a la izquierda | La mayoría de estancias incluyen 1 o 2 noches de fin de semana. |
+| **no_of_week_nights** | Numérica continua | Sesgada a la derecha | Estancias cortas son más comunes. |
+| **lead_time** | Numérica continua | Altamente sesgada a la derecha | Muchos clientes reservan con poca anticipación. |
+| **avg_price_per_room** | Numérica continua | Sesgada positivamente | La mayoría paga precios medios; pocos casos premium. Posiblemente log-normal. |
+| **no_of_special_requests** | Numérica discreta | Concentrada en 0–1 | La mayoría no realiza solicitudes especiales. |
+| **required_car_parking_space** | Binaria | Mayoría 0 | Pocos clientes requieren espacio para coche. |
+| **no_of_previous_cancellations** | Discreta | Mayoría 0 | La mayoría nunca canceló antes. Dato relevante. |
+| **no_of_previous_bookings_not_canceled** | Discreta | Sesgada a la derecha | Pocos clientes con reservas previas completadas. |
+| **repeated_guest** | Binaria | Mayoría 0 | La mayoría de los huéspedes son nuevos. |
+| **arrival_month / arrival_date** | Discretas | Casi uniformes con algunos picos | Posible estacionalidad en meses de vacaciones. |
+| **booking_status** | Categórica | 60–70% “Not Canceled” / 30–40% “Canceled” | Leve desbalanceo, aceptable para modelar. |
+
+---
+
+## 🧠 Conclusión Técnica del Análisis
+
+### Distribución de los datos
+La mayoría de las variables **no siguen una distribución normal**, sino que presentan **sesgos positivos o negativos**.  
+Será necesario aplicar **transformaciones** (log, min-max, robust scaling) antes de entrenar un modelo predictivo.
+
+### Relevancia para el modelo
+- Variables como **lead_time**, **avg_price_per_room** y **no_of_special_requests** son **fuertes candidatas predictoras** del `booking_status`.  
+- Variables como **no_of_children** o **required_car_parking_space** aportan poca variabilidad.
+
+### Uniformidad
+Ninguna variable presenta un comportamiento completamente uniforme, lo cual es positivo: **existe variabilidad suficiente para el aprendizaje supervisado**.
+
+### Preparación para el modelado
+Antes de aplicar machine learning, se deben realizar los siguientes pasos:
+1. Estandarizar o normalizar las variables numéricas.  
+2. Codificar las variables categóricas (`OneHotEncoder` o `LabelEncoder`).  
+3. Verificar el balance del target (`booking_status`).  
+4. Dividir los datos en conjuntos de entrenamiento y prueba.
+
+---
+
+## 📌 Conclusión Final de la Etapa
+
+El análisis exploratorio demuestra que el dataset presenta **variables mayormente no normales y sesgadas**, algo habitual en datos reales de reservas.  
+Este estudio permitió identificar **las variables con mayor peso potencial** en la cancelación de reservas, sentando las bases para una **fase de modelado supervisado** de clasificación.
+
+### 🔑 Variables más relevantes detectadas:
+- `lead_time`  
+- `avg_price_per_room`  
+- `no_of_special_requests`  
+- `market_segment_type`  
+- `repeated_guest`
+
+Estas serán las variables clave en la **predicción de cancelaciones de reservas**.
 
 ---
 
@@ -110,5 +163,6 @@ El dataset contiene información sobre reservas hoteleras, incluyendo:
 ---
 
 ✍️ **Autor:** Luis Arbio  
-📅 **Curso:** Data Science II - CoderHouse  
+📅 **Curso:** Data Science - CoderHouse  
+
 
