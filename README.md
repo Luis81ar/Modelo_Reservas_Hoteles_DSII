@@ -308,8 +308,7 @@ Este proyecto demuestra la aplicación completa del ciclo de **Data Science apli
 - **GitHub** (control de versiones y documentación)
 
 ---
-
-✍️ **Autor:** Luis Arbio  
-📅 **Curso:** Data Science II - CoderHouse  
+✍️ Autor: Luis Arbio  
+📅 Curso: Data Science II - CoderHouse  
 ---
 
