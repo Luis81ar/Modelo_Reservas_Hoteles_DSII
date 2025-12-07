@@ -154,7 +154,7 @@ Este estudio permitió identificar **las variables con mayor peso potencial** en
 Estas serán las variables clave en la **predicción de cancelaciones de reservas**.
 
 ---
-## ⚙️ INICIO SEGUNDA ETAPA DEL PROYECTO - ENTRENAMIENTO
+## ⚙️ ETAPA 2 - ENTRENAMIENTO
 
 ### Distribución del Target
 
