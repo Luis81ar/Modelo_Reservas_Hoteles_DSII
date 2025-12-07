@@ -154,6 +154,7 @@ Este estudio permitió identificar **las variables con mayor peso potencial** en
 Estas serán las variables clave en la **predicción de cancelaciones de reservas**.
 
 ---
+
 ## ⚙️ ETAPA 2 - ENTRENAMIENTO
 
 ### Distribución del Target
@@ -218,7 +219,6 @@ Se entrenaron los siguientes modelos:
 - **Random Forest (modelo final seleccionado)**  
 
 ---
----
 
 ### Optimización con GridSearchCV
 
@@ -232,6 +232,7 @@ python
  'n_estimators': 200
 }
 
+---
 
 ### 📈 Evaluación del Modelo
 
@@ -308,7 +309,9 @@ Este proyecto demuestra la aplicación completa del ciclo de **Data Science apli
 - **GitHub** (control de versiones y documentación)
 
 ---
+
 ✍️ Autor: Luis Arbio  
 📅 Curso: Data Science II - CoderHouse  
+
 ---
 
