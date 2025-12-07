@@ -272,7 +272,7 @@ El modelo final fue evaluado tanto en el conjunto de **entrenamiento** como en e
 - A mayor `avg_price_per_room`, mayor probabilidad de cancelación.
 - Los clientes con solicitudes especiales suelen cancelar menos, mostrando mayor compromiso.
 - Los segmentos **Online y Agencias** presentan mayores niveles de cancelación.
-- Determinados tipos de habitaciones muestran mayor volatilidad de cancelaciones.
+- Las habitaciones de categoría superior muestran mayor volatilidad de cancelaciones.
 
 ---
 
