@@ -298,8 +298,7 @@ Principales beneficios del modelo:
 - Reducir pérdidas económicas  
 - Diseñar políticas comerciales preventivas  
 
-Este proyecto demuestra la aplicación completa del ciclo de **Data Science aplicado a un problema real del sector hotelero**, cumpliendo con todos los requisitos académicos del curso.
-
+---
 
 ## ⚙️ Herramientas Utilizadas
 - **Python** (Jupyter Notebook / Google Colab)  
