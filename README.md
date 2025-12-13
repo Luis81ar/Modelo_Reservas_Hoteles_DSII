@@ -155,7 +155,7 @@ Estas serán las variables clave en la **predicción de cancelaciones de reserva
 
 ---
 
-## ⚙️ ETAPA 2 - ENTRENAMIENTO
+## ⚙️ Etapa 2 - ENTRENAMIENTO
 
 ### Distribución del Target
 
@@ -193,78 +193,60 @@ Se aplicó **One-Hot Encoding** a:
 - `room_type_reserved`
 - `market_segment_type`
 
+- Se guardó el dataset procesado en `reservas_hoteles_fe.csv`.
 ---
 
-### Escalado de Variables Numéricas
+### Escalado, Split y Entrenamiento
 
-Se utilizó **StandardScaler**, garantizando homogeneidad de escalas.
+- **Split train/test estratificado**:  
+  - Train: 29.020 registros  
+  - Test: 7.255 registros  
+- **Columnas numéricas escaladas** con StandardScaler (fit solo en train).  
+- Modelos entrenados:
+  - Regresión Logística  
+  - Random Forest  
+  - XGBoost  
 
----
+### Resultados preliminares
 
-### Separación de Conjuntos
+| Modelo | Train Accuracy | Test Accuracy | Train F1 | Test F1 | Train ROC | Test ROC |
+|--------|----------------|---------------|-----------|----------|-----------|----------|
+| LogisticRegression | 0.807 | 0.817 | 0.683 | 0.699 | 0.863 | 0.872 |
+| RandomForest | 0.994 | 0.903 | 0.991 | 0.845 | 0.999 | 0.957 |
+| XGBoost | 0.919 | 0.895 | 0.872 | 0.834 | 0.977 | 0.955 |
 
-- **Train (80%)** → 29.020 registros  
-- **Test (20%)** → 7.255 registros  
-- División estratificada por variable objetivo.
-
----
-
-## 🤖Entrenamiento y Optimización
-
-Se entrenaron los siguientes modelos:
-
-- Regresión Logística  
-- K-Nearest Neighbors  
-- Árbol de Decisión  
-- **Random Forest (modelo final seleccionado)**  
-
----
-
-### Optimización con GridSearchCV
-
+- **Optimización Random Forest con GridSearchCV**:
 Se aplicó **GridSearchCV** sobre el modelo Random Forest para buscar la mejor combinación de hiperparámetros.  
 El mejor modelo obtenido fue:
-
 python
-{
- 'max_depth': 20,
- 'min_samples_split': 2,
- 'n_estimators': 200
-}
+{'max_depth': 20, 'min_samples_split': 2, 'n_estimators': 200}
 
 ---
 
-### 📈 Evaluación del Modelo
+## ⚙️ Etapa 3 - Evaluación del Modelo
 
 El modelo final fue evaluado tanto en el conjunto de **entrenamiento** como en el de **prueba**, utilizando métricas de clasificación.
+- **Predicciones** en train y test usando `best_rf_model.pkl`.  
+
+### Métricas obtenidas
+
+**Train:**  
+- Accuracy: 0.96  
+- F1-score (Canceladas): 0.93  
+- ROC AUC: 0.994  
+
+**Test:**  
+- Accuracy: 0.90  
+- F1-score (Canceladas): 0.85  
+- ROC AUC: 0.957  
+
+- **Matrices de confusión** visualizadas con seaborn.  
+- Buen desempeño y generalización sin overfitting severo.  
 
 ---
 
-### 🔹 Resultados en Entrenamiento (Train)
+## 🧠 Conclusiones del Negocio
 
-- **Accuracy:** 96%  
-- **F1-score (Cancelaciones):** 93%  
-
----
-
-### 🔹 Resultados en Test
-
-- **Accuracy:** 90%  
-- **F1-score (Cancelaciones):** 85%  
-
----
-
-### 🔹 Interpretación de Resultados
-
-- El modelo clasifica correctamente **9 de cada 10 reservas**.
-- Detecta más del **80% de las cancelaciones reales**.
-- Presenta **muy buena capacidad de generalización**.
-- No se observa overfitting severo entre train y test.
-
----
-
-## Conclusiones del Negocio (Respuestas a las Preguntas)
- 
 - Aproximadamente **33% de las reservas terminan siendo canceladas**, lo que representa un impacto económico considerable.
 - Los clientes **no recurrentes** presentan mayor probabilidad de cancelación que los huéspedes frecuentes.
 - A **mayor antelación de la reserva, mayor probabilidad de cancelación**. Es una de las variables más influyentes del modelo.
@@ -275,18 +257,6 @@ El modelo final fue evaluado tanto en el conjunto de **entrenamiento** como en e
 - Las habitaciones de categoría superior muestran mayor volatilidad de cancelaciones.
 
 ---
-
-## 🔑 Variables Más Relevantes del Modelo
-
-- `lead_time`
-- `avg_price_per_room`
-- `market_segment_type`
-- `special_requests_flag`
-- `repeated_guest`
-- `stay_duration`
-
----
-
 ## ✅ Conclusión General Final
 
 Se logró desarrollar un **modelo predictivo sólido, estable y aplicable a un entorno real de negocio**, capaz de transformar datos históricos en decisiones estratégicas.
@@ -296,21 +266,32 @@ Principales beneficios del modelo:
 - Anticipar cancelaciones  
 - Optimizar la ocupación  
 - Reducir pérdidas económicas  
-- Diseñar políticas comerciales preventivas  
+- Diseñar políticas comerciales preventivas
+
+---
+
+## 🔑 Variables Más Relevantes del Modelo
+
+- `lead_time`  
+- `avg_price_per_room`  
+- `market_segment_type`  
+- `special_requests_flag`  
+- `repeated_guest`  
+- `stay_duration`  
 
 ---
 
 ## ⚙️ Herramientas Utilizadas
+
 - **Python** (Jupyter Notebook / Google Colab)  
 - **Pandas**, **NumPy**, **Matplotlib**, **Seaborn**  
-- **Scikit-learn** (modelado, validación y métricas)  
-- **Joblib / Pickle** (persistencia del modelo)  
-- **GitHub** (control de versiones y documentación)
+- **Scikit-learn** (modelado y validación)  
+- **XGBoost**  
+- **Joblib / Pickle** (persistencia de modelo y scaler)  
+- **GitHub** (control de versiones y documentación)  
 
 ---
 
-✍️ Autor: Luis Arbio  
-📅 Curso: Data Science II - CoderHouse  
-
----
+✍️ **Autor:** Luis Arbio  
+📅 **Curso:** Data Science II – CoderHouse
 
